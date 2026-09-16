@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Workflow Activation Lab - CoinsPaid, Athens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16203A; --graphite:#5B6475; --sky:#E9EEF3; --paper:#FFFFFF;
+  --marker:#F2D14B;  /* solo / individual */
+  --team:#7FB8A4;    /* together / group */
+  --safe:#2E7D5B; --stop:#B3402F; --line:#C9D2DC;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{font-family:"IBM Plex Sans",system-ui,sans-serif;background:var(--sky);color:var(--ink);font-size:17px;line-height:1.6}
+h1,h2,h3{font-family:"Bricolage Grotesque",sans-serif;line-height:1.05;letter-spacing:-.02em}
+h1{font-size:clamp(2.8rem,7.5vw,5.6rem);font-weight:800}
+h2{font-size:clamp(1.9rem,4.4vw,3rem);font-weight:700;margin-bottom:1.2rem}
+h3{font-size:1.25rem;font-weight:700;margin-bottom:.4rem}
+p{max-width:62ch}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+section{padding:88px 0}
+.muted{color:var(--graphite)}
+.bar{display:flex;justify-content:space-between;align-items:center;padding:20px 0;font-weight:600;font-size:.95rem}
+.bar span{color:var(--graphite);font-weight:500}
+
+/* chips: solo vs together, used everywhere for the split */
+.chip{display:inline-block;font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:999px;vertical-align:middle}
+.chip.solo{background:var(--marker)}
+.chip.team{background:var(--team)}
+.chip.all{background:transparent;border:1px solid currentColor}
+
+/* hero */
+.hero{padding:36px 0 96px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.hero .sub{font-family:"Bricolage Grotesque";font-size:clamp(1.3rem,2.6vw,1.7rem);font-weight:500;margin-top:1rem;line-height:1.2}
+.hero .lead{font-size:1.15rem;margin:1.2rem 0 1.8rem}
+.promise-top{border-left:4px solid var(--marker);padding:4px 0 4px 14px;margin:0 0 1.6rem;font-size:1rem;color:var(--graphite)}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:2rem}
+.facts span{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:6px 12px;font-size:.95rem}
+.btn{display:inline-block;background:var(--ink);color:#fff;text-decoration:none;font-weight:600;padding:14px 22px;border-radius:8px}
+.btn:hover{background:#26345a}
+
+.card{background:var(--paper);border-radius:4px;box-shadow:0 1px 0 var(--line),0 18px 40px -20px rgba(22,32,58,.35);transform:rotate(-1.2deg);position:relative;
+  background-image:repeating-linear-gradient(transparent 0 35px,#E3E9EF 35px 36px);background-position:0 64px}
+.card::before{content:"";position:absolute;left:44px;top:0;bottom:0;width:1px;background:#F0B9B0}
+.card header{display:flex;justify-content:space-between;align-items:baseline;padding:18px 22px 14px 60px;border-bottom:2px solid var(--ink);background:var(--paper)}
+.card header b{font-family:"Bricolage Grotesque";font-size:1.15rem}
+.card header small{color:var(--graphite)}
+.row{display:grid;grid-template-columns:118px 1fr;padding:0 22px 0 60px;min-height:36px;align-items:center;font-size:.98rem}
+.row dt{color:var(--graphite);font-size:.88rem}
+.row dd{font-family:"Bricolage Grotesque";font-weight:500;line-height:1.25;padding:6px 0;transition:opacity .25s}
+.row.ai dd{background:linear-gradient(transparent 50%,var(--marker) 50%);justify-self:start}
+.tabs{display:flex;gap:8px;margin-top:26px;flex-wrap:wrap;justify-content:center}
+.tabs button{font:inherit;font-size:.9rem;background:transparent;border:1px solid var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer;color:var(--ink)}
+.tabs button[aria-selected="true"]{background:var(--ink);color:#fff}
+
+/* photography, tinted to match the brand marks */
+.photo{position:relative;overflow:hidden;border-radius:6px;background:var(--ink)}
+.photo img{display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.1) brightness(1.03)}
+.photo::after{content:"";position:absolute;inset:0;mix-blend-mode:multiply;background:var(--ink);opacity:.6}
+.photo.solo::after{background:var(--marker);opacity:.48}
+.photo.team::after{background:var(--team);opacity:.48}
+.gallery-grid{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:16px}
+.gallery-grid .photo{aspect-ratio:3/4}
+.gallery-grid .photo:first-child{aspect-ratio:1/1}
+.banner-photo{aspect-ratio:21/9;margin-top:1.8rem}
+.part-photo{aspect-ratio:16/9;margin:16px 0 6px}
+
+/* the key message */
+.truth{background:var(--ink);color:#fff}
+.truth h2{color:#fff}
+.truth-list{display:grid;grid-template-columns:repeat(3,1fr);gap:34px;margin:2.4rem 0 3rem;counter-reset:n}
+.truth-list div{border-top:2px solid #3A4868;padding-top:16px}
+.truth-list h3{font-size:1.5rem;margin-bottom:.6rem}
+.truth-list p{color:#C5CDDC}
+.anchor{font-family:"Bricolage Grotesque";font-weight:700;font-size:clamp(1.8rem,4.6vw,3.3rem);line-height:1.08;max-width:22ch}
+.anchor s{color:#8C97AD;text-decoration-thickness:3px;font-weight:500}
+.anchor em{font-style:normal;background:linear-gradient(transparent 58%,var(--marker) 58%);color:#fff;background-clip:padding-box}
+.anchor em{color:var(--ink);background:var(--marker);padding:0 .15em}
+
+/* question swap */
+.swap-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end}
+.swap .old{font-family:"Bricolage Grotesque";font-size:clamp(1.5rem,3vw,2.1rem);color:var(--graphite);text-decoration:line-through;text-decoration-thickness:2px}
+.swap .new{font-family:"Bricolage Grotesque";font-size:clamp(1.9rem,4vw,2.9rem);font-weight:700;line-height:1.1}
+.swap .note{margin-top:1.6rem;grid-column:1/-1}
+
+/* schedule */
+.parts{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:2rem}
+.part{background:var(--paper);border-radius:6px;padding:26px;border-top:8px solid var(--marker)}
+.part.team{border-top-color:var(--team)}
+.part h3{font-size:1.6rem;margin:.6rem 0 .2rem}
+.slots{list-style:none;margin-top:1.2rem}
+.slots li{display:grid;grid-template-columns:112px 1fr;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.slots time{font-weight:600;font-variant-numeric:tabular-nums;font-size:.95rem}
+.slots b{display:block}
+.slots span{color:var(--graphite);font-size:.95rem}
+.common{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:22px}
+.common div{border:1px solid var(--ink);border-radius:6px;padding:16px 18px}
+.common time{font-weight:600;font-variant-numeric:tabular-nums;font-size:.95rem}
+.lunchbar{margin:22px 0;text-align:center;color:var(--graphite);border-top:1px dashed var(--graphite);border-bottom:1px dashed var(--graphite);padding:10px}
+.rhythm{display:flex;gap:4px;margin-top:8px;height:12px;max-width:260px}
+.rhythm i{display:block;border-radius:2px}.rhythm .w{flex:4;background:var(--ink)}.rhythm .r{flex:1;background:var(--line)}
+.finish{margin-top:22px;background:var(--ink);color:#fff;border-radius:6px;padding:20px 26px;display:flex;gap:18px;flex-wrap:wrap;align-items:baseline}
+.finish time{font-weight:600}
+
+/* outcomes */
+.outcomes{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:2rem}
+.out{background:var(--paper);border-radius:6px;padding:28px}
+.out.solo{box-shadow:inset 0 8px 0 var(--marker)}
+.out.team{box-shadow:inset 0 8px 0 var(--team)}
+.out h3{font-size:1.6rem;margin:.7rem 0}
+.out ul{margin:.4rem 0 0 1.1em}.out li{margin-bottom:8px}
+.out .own{margin-top:14px;font-size:.95rem;color:var(--graphite)}
+.org{margin-top:22px;border:2px solid var(--ink);border-radius:6px;padding:24px 28px;display:grid;grid-template-columns:200px 1fr;gap:20px}
+.org ul{columns:2;column-gap:32px;margin-left:1.1em}.org li{break-inside:avoid;margin-bottom:6px}
+
+/* team format */
+.formats{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:2rem}
+.fmt{background:var(--paper);border-radius:6px;padding:28px;border:2px solid var(--ink)}
+.fmt.opt{border-style:dashed;background:transparent}
+.fmt .tag{font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--graphite)}
+.fmt .big{font-family:"Bricolage Grotesque";font-weight:800;font-size:3.4rem;line-height:1;margin:.4rem 0}
+.fmt ul{margin:.8rem 0 0 1.1em}.fmt li{margin-bottom:6px}
+.dots{display:flex;gap:6px;margin:.6rem 0}
+.dots i{width:18px;height:18px;border-radius:50%;background:var(--ink)}
+.dots i.c{background:transparent;border:2px solid var(--ink);width:12px;height:12px;margin-top:3px}
+
+/* safety */
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:2rem 0}
+.rule{background:var(--paper);border-radius:6px;padding:22px;border-left:5px solid var(--safe)}
+.rule.no{border-left-color:var(--stop)}
+.rule ul{margin:.6rem 0 0 1.1em}
+.qs{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:1.4rem}
+.qs p{font-family:"Bricolage Grotesque";font-weight:500;font-size:1.15rem;line-height:1.25;border-top:1px solid var(--ink);padding-top:10px}
+
+.prep{background:var(--ink);color:#fff}
+.prep h2{color:#fff}
+.prep ol{margin:1.6rem 0 2rem 1.2em;max-width:58ch}.prep li{margin-bottom:10px}
+.prep .btn{background:var(--marker);color:var(--ink)}
+footer{padding:36px 0;font-size:.9rem;color:var(--graphite)}
+
+@media (max-width:860px){
+  section{padding:64px 0}
+  .hero-grid,.swap-grid,.parts,.outcomes,.formats,.rules,.truth-list,.common,.org{grid-template-columns:1fr}
+  .qs{grid-template-columns:1fr 1fr}
+  .org ul{columns:1}
+  .card{transform:none}
+  .row{grid-template-columns:96px 1fr;padding-left:54px}
+  .card::before{left:40px}
+  .gallery-grid{grid-template-columns:1fr 1fr}
+  .gallery-grid .photo:first-child{grid-column:1/-1;aspect-ratio:16/9}
+  .banner-photo{aspect-ratio:16/9}
+}
+@media (max-width:520px){
+  .wrap{padding:0 16px}
+  section{padding:52px 0}
+  .facts{gap:8px}
+  .facts span{padding:5px 10px;font-size:.88rem}
+  .gallery-grid{grid-template-columns:1fr}
+  .gallery-grid .photo{aspect-ratio:4/3}
+  .qs{grid-template-columns:1fr}
+  .org{padding:20px}
+  .part{padding:20px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap bar"><div>CoinsPaid</div><span>Internal event · Athens</span></div>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Coin a new way to work.</h1>
+      <p class="sub">Bring one routine. Leave with a tested first step.</p>
+      <p class="lead">AI is already changing how work gets done. The AI Workflow Activation Lab puts you in charge of how it changes yours: you take a task from your own job, try AI on it safely, and see what it can do in your hands.</p>
+      <p class="promise-top">The Lab is about changing how work gets done, not about shipping finished AI agents in one afternoon. Ideas that prove themselves can be built further after the event.</p>
+      <div class="facts">
+        <span>7 November 2026</span><span>Athens</span><span>11:00-16:00</span><span>In English</span><span>Bring your laptop</span>
+      </div>
+      <a class="btn" href="#prep">Choose your routine before the Lab</a>
+    </div>
+    <div>
+      <article class="card" aria-live="polite">
+        <header><b>My workflow card</b><small id="c-team">Finance ops</small></header>
+        <dl>
+          <div class="row"><dt>Task</dt><dd id="c-task">Monthly vendor invoice check</dd></div>
+          <div class="row"><dt>Today</dt><dd id="c-today">Export → compare in Excel → email mismatches</dd></div>
+          <div class="row"><dt>Bottleneck</dt><dd id="c-pain">3 hours of line-by-line comparison</dd></div>
+          <div class="row ai"><dt>AI step</dt><dd id="c-ai">Flag mismatches, draft a summary</dd></div>
+          <div class="row"><dt>Human review</dt><dd id="c-review">Approve before anything is sent</dd></div>
+          <div class="row"><dt>Next step</dt><dd id="c-next">Run on last month's sanitized file</dd></div>
+        </dl>
+      </article>
+      <div class="tabs" role="tablist" aria-label="Example workflow cards">
+        <button role="tab" aria-selected="true" data-i="0">Finance</button>
+        <button role="tab" aria-selected="false" data-i="1">Support</button>
+        <button role="tab" aria-selected="false" data-i="2">Compliance</button>
+        <button role="tab" aria-selected="false" data-i="3">People team</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section style="padding-top:0;padding-bottom:0">
+  <div class="wrap gallery-grid">
+    <figure class="photo"><img src="https://picsum.photos/seed/coinspaid-lab-room-a/900/900" alt="" loading="lazy" width="900" height="900"></figure>
+    <figure class="photo"><img src="https://picsum.photos/seed/coinspaid-lab-room-b/700/900" alt="" loading="lazy" width="700" height="900"></figure>
+    <figure class="photo"><img src="https://picsum.photos/seed/coinspaid-lab-room-c/700/900" alt="" loading="lazy" width="700" height="900"></figure>
+  </div>
+</section>
+
+<!-- KEY MESSAGE: change is inevitable, and that's good news for the people who know the work -->
+<section class="truth">
+  <div class="wrap">
+    <h2>Let's be honest about AI</h2>
+    <div class="truth-list">
+      <div><h3>It's not coming. It's here.</h3><p>AI is already moving into every team's work: finance, support, compliance, operations. Whether your routines will change is no longer the question. The question is who shapes that change.</p></div>
+      <div><h3>The best person to shape it is you.</h3><p>No tool knows where your process breaks, which step wastes an afternoon, or what a good result really looks like. You do. That knowledge is what turns AI into something useful.</p></div>
+      <div><h3>The routine goes. Your judgement stays.</h3><p>The copy-paste, the checking, the same answer for the tenth time shrinks. What grows is the work that needs your experience, your decisions and your people.</p></div>
+    </div>
+    <p class="anchor"><s>AI is done to you.</s><br>You're the one <em>running it.</em></p>
+  </div>
+</section>
+
+<section class="swap">
+  <div class="wrap swap-grid">
+    <div><p class="old">What can AI do?</p></div>
+    <div><p class="new">What could AI change about the way I do this task?</p></div>
+    <p class="note muted">This is not another AI training with generic use cases on slides. You work on your own job: the reports, requests, checks and hand-offs that take your time. The Lab is a full programme for everyone at CoinsPaid, running alongside the hackathon track. No coding or AI experience needed.</p>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <h2>One day, two ways of working</h2>
+    <p class="muted">First you work on your own routine. Then you join a group to take one workflow further together.</p>
+
+    <div class="common" style="margin-top:2rem">
+      <div><span class="chip all">Everyone</span><p><time>11:00</time> · <b>Opening</b></p><span class="muted">Why this change is already happening, and why it's good news for you.</span></div>
+      <div><span class="chip all">Everyone</span><p><time>11:15</time> · <b>AI in daily work</b></p><span class="muted">Live examples from non-technical roles.</span></div>
+      <div><span class="chip all">Everyone</span><p><time>11:45</time> · <b>Safe use</b></p><span class="muted">Approved tools, data boundaries, human review.</span></div>
+    </div>
+
+    <div class="parts">
+      <div class="part">
+        <span class="chip solo">Part 1 · Solo</span>
+        <figure class="photo solo part-photo"><img src="https://picsum.photos/seed/coinspaid-lab-solo/800/450" alt="" loading="lazy" width="800" height="450"></figure>
+        <h3>Your routine</h3>
+        <p class="muted">Before lunch. Just you and your laptop.</p>
+        <ul class="slots">
+          <li><time>12:05</time><div><b>Task discovery</b><span>"Which recurring task would I hand to an assistant?"</span></div></li>
+          <li><time>12:20</time><div><b>Map it</b><span>Fill in your workflow card: steps, bottleneck, AI step.</span></div></li>
+          <li><time>12:35</time><div><b>Test it</b><span>Try your AI step once in an approved tool on example data.</span></div></li>
+        </ul>
+      </div>
+      <div class="part team">
+        <span class="chip team">Part 2 · Together</span>
+        <figure class="photo team part-photo"><img src="https://picsum.photos/seed/coinspaid-lab-team/800/450" alt="" loading="lazy" width="800" height="450"></figure>
+        <h3>One shared workflow</h3>
+        <p class="muted">After lunch. In groups of 8-12.</p>
+        <ul class="slots">
+          <li><time>13:45</time><div><b>Pick and plan</b><span>Share cards, choose the one workflow with the most potential.</span></div></li>
+          <li><time>14:00</time><div><b>Build the storyboard</b><span>Step by step: where AI works, where people check.
+            <div class="rhythm" aria-label="40 minutes work, 10 minutes rest"><i class="w"></i><i class="r"></i><i class="w"></i></div></span></div></li>
+          <li><time>15:05</time><div><b>Get demo-ready</b><span>Problem, AI step, what changes, next step.</span></div></li>
+        </ul>
+      </div>
+    </div>
+    <div class="lunchbar">13:00-13:45 · Lunch</div>
+    <div class="finish"><time>15:20-16:00</time><b>Group share</b><span style="color:#C5CDDC">Groups show what they built. Done before the 17:00 programme.</span></div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <h2>What you take home, and what you build together</h2>
+    <div class="outcomes">
+      <div class="out solo">
+        <span class="chip solo">Solo result</span>
+        <h3>Yours</h3>
+        <ul>
+          <li>A workflow card for one routine from your own job</li>
+          <li>One AI step you've actually tried</li>
+          <li>A next step for the week after the Lab</li>
+        </ul>
+        <p class="own">It stays yours, whichever workflow your group picks.</p>
+      </div>
+      <div class="out team">
+        <span class="chip team">Group result</span>
+        <h3>Your group's</h3>
+        <ul>
+          <li>One workflow worked through end to end</li>
+          <li>An automation storyboard: which steps AI takes, where people review</li>
+          <li>A short demo at the group share</li>
+        </ul>
+        <p class="own">Built together from the strongest card at the table.</p>
+      </div>
+    </div>
+    <div class="org">
+      <div><span class="chip all">For CoinsPaid</span></div>
+      <ul>
+        <li>A map of real use cases across teams</li>
+        <li>The most promising workflows for the next stage</li>
+        <li>What blocks AI adoption today</li>
+        <li>Recommendations for what to do next</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <h2>Who runs the Lab</h2>
+    <p class="muted">12-15 groups of 8-12 people.</p>
+    <figure class="photo banner-photo"><img src="https://picsum.photos/seed/coinspaid-lab-facilitators/1600/680" alt="" loading="lazy" width="1600" height="680"></figure>
+    <div class="formats">
+      <div class="fmt">
+        <span class="tag">Core format</span>
+        <div class="big">3</div>
+        <div class="dots" aria-hidden="true"><i></i><i></i><i></i><i class="c"></i><i class="c"></i><i class="c"></i><i class="c"></i><i class="c"></i></div>
+        <b>external facilitators + CoinsPaid table captains</b>
+        <ul>
+          <li>1 lead facilitator runs the programme, timing and content</li>
+          <li>2 floor facilitators move between groups and clear blockers</li>
+          <li>One CoinsPaid volunteer per group keeps the table on track, briefed before the event</li>
+          <li>Group result: automation storyboard</li>
+        </ul>
+      </div>
+      <div class="fmt opt">
+        <span class="tag">Option</span>
+        <div class="big">5</div>
+        <div class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <b>external facilitators</b>
+        <ul>
+          <li>1 lead facilitator plus 4 table facilitators</li>
+          <li>Each facilitator covers 3-4 groups</li>
+          <li>More hands-on help in the tools</li>
+          <li>Group result: a working workflow prototype in approved tools</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <h2>Safe by design</h2>
+    <p>Everything happens inside CoinsPaid's approved AI environment. Our security team is on-site and decides on any unclear case.</p>
+    <div class="rules">
+      <div class="rule"><h3>What we use</h3><ul><li>Approved AI tools only</li><li>Sanitized or invented example data</li><li>Human review for every decision and external message</li></ul></div>
+      <div class="rule no"><h3>What never goes into AI tools</h3><ul><li>Personal data</li><li>Client data</li><li>Wallet data</li><li>Keys, passwords and secrets</li></ul></div>
+    </div>
+    <h3>Four questions every group answers</h3>
+    <div class="qs"><p>Can we use this data?</p><p>Can we trust the output?</p><p>What needs human review?</p><p>What would make this safe for real work?</p></div>
+  </div>
+</section>
+
+<section class="prep" id="prep">
+  <div class="wrap">
+    <h2>Don't leave it to a coin toss.</h2>
+    <p><strong>Pick your routine before 7 November.</strong> Ten minutes of thinking now makes the day much more useful.</p>
+    <ol>
+      <li>Pick one task you do at least every week or month.</li>
+      <li>Write down the steps you take today, roughly.</li>
+      <li>Note where it gets slow, boring or error-prone.</li>
+      <li>Check you could show it with fake or anonymised example data.</li>
+    </ol>
+    <a class="btn" href="#">Register for the Lab</a>
+  </div>
+</section>
+
+<footer class="wrap">AI Workflow Activation Lab · CoinsPaid · Athens, 7 November 2026</footer>
+
+<script>
+const cards=[
+ {team:"Finance ops",task:"Monthly vendor invoice check",today:"Export → compare in Excel → email mismatches",pain:"3 hours of line-by-line comparison",ai:"Flag mismatches, draft a summary",review:"Approve before anything is sent",next:"Run on last month's sanitized file"},
+ {team:"Customer support",task:"Replies to repeat questions",today:"Read ticket → search help centre → write reply",pain:"Same answers typed again and again",ai:"Draft a reply from approved articles",review:"Agent edits and sends",next:"Test on 10 invented tickets"},
+ {team:"Compliance",task:"Weekly regulatory news digest",today:"Read sources → copy notes → write summary",pain:"Too much to read, easy to miss things",ai:"Summarise and tag by relevance",review:"Analyst confirms each flag",next:"Compare with last week's manual digest"},
+ {team:"People team",task:"Onboarding questions from new hires",today:"Answer in chat, look up policy docs",pain:"Interruptions all week",ai:"Q&A over the public handbook",review:"HR checks unclear answers",next:"Collect 20 real questions, anonymised"}
+];
+const ids=["team","task","today","pain","ai","review","next"];
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".tabs button").forEach(x=>x.setAttribute("aria-selected","false"));
+  b.setAttribute("aria-selected","true");
+  const c=cards[b.dataset.i];
+  ids.forEach(k=>{const el=document.getElementById("c-"+k);el.style.opacity=0;setTimeout(()=>{el.textContent=c[k];el.style.opacity=1},180)});
+}));
+</script>
+</body>
+</html>
