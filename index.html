@@ -130,6 +130,10 @@ section{padding:88px 0}
 .dots{display:flex;gap:6px;margin:.6rem 0}
 .dots i{width:18px;height:18px;border-radius:50%;background:var(--ink)}
 .dots i.c{background:transparent;border:2px solid var(--ink);width:12px;height:12px;margin-top:3px}
+.cost{margin:.2rem 0 1.1rem}
+.cost .tag{display:block;margin-bottom:4px}
+.cost .amount{font-family:"Bricolage Grotesque";font-weight:800;font-size:1.5rem;color:var(--ink)}
+.rhythm-note{display:block;margin-top:6px;font-size:.85rem;color:var(--graphite)}
 
 /* safety */
 .rules{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:2rem 0}
@@ -269,7 +273,8 @@ footer{padding:36px 0;font-size:.9rem;color:var(--graphite)}
         <ul class="slots">
           <li><time>13:45</time><div><b>Pick and plan</b><span>Share cards, choose the one workflow with the most potential.</span></div></li>
           <li><time>14:00</time><div><b>Build the storyboard</b><span>Step by step: where AI works, where people check.
-            <div class="rhythm" aria-label="40 minutes work, 10 minutes rest"><i class="w"></i><i class="r"></i><i class="w"></i></div></span></div></li>
+            <div class="rhythm" aria-label="40 minutes work, 10 minutes rest"><i class="w"></i><i class="r"></i><i class="w"></i></div>
+            <small class="rhythm-note">40 min work · 10 min break · 40 min work</small></span></div></li>
           <li><time>15:05</time><div><b>Get demo-ready</b><span>Problem, AI step, what changes, next step.</span></div></li>
         </ul>
       </div>
@@ -325,7 +330,8 @@ footer{padding:36px 0;font-size:.9rem;color:var(--graphite)}
       <div class="fmt">
         <span class="tag">Core format</span>
         <div class="big">3</div>
-        <div class="dots" aria-hidden="true"><i></i><i></i><i></i><i class="c"></i><i class="c"></i><i class="c"></i><i class="c"></i><i class="c"></i></div>
+        <div class="dots" aria-hidden="true"><i></i><i></i><i></i><i class="c"></i><i class="c"></i></div>
+        <p class="cost"><span class="tag">Costs</span><span class="amount">€7,000</span> <span class="muted">incl. VAT</span></p>
         <b>external facilitators + CoinsPaid table captains</b>
         <ul>
           <li>1 lead facilitator runs the programme, timing and content</li>
@@ -338,6 +344,7 @@ footer{padding:36px 0;font-size:.9rem;color:var(--graphite)}
         <span class="tag">Option</span>
         <div class="big">5</div>
         <div class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <p class="cost"><span class="tag">Costs</span><span class="amount">€9,000</span> <span class="muted">incl. VAT</span></p>
         <b>external facilitators</b>
         <ul>
           <li>1 lead facilitator plus 4 table facilitators</li>
