@@ -45,6 +45,7 @@ section{padding:88px 0}
 .facts span{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:6px 12px;font-size:.95rem}
 .btn{display:inline-block;background:var(--ink);color:#fff;text-decoration:none;font-weight:600;padding:14px 22px;border-radius:8px}
 .btn:hover{background:#26345a}
+.btn.is-progress{background:var(--graphite);cursor:default;pointer-events:none}
 
 .card{background:var(--paper);border-radius:4px;box-shadow:0 1px 0 var(--line),0 18px 40px -20px rgba(22,32,58,.35);transform:rotate(-1.2deg);position:relative;
   background-image:repeating-linear-gradient(transparent 0 35px,#E3E9EF 35px 36px);background-position:0 64px}
@@ -142,6 +143,7 @@ section{padding:88px 0}
 .prep h2{color:#fff}
 .prep ol{margin:1.6rem 0 2rem 1.2em;max-width:58ch}.prep li{margin-bottom:10px}
 .prep .btn{background:var(--marker);color:var(--ink)}
+.prep .btn.is-progress{background:rgba(255,255,255,.25);color:#fff}
 footer{padding:36px 0;font-size:.9rem;color:var(--graphite)}
 
 @media (max-width:860px){
@@ -371,7 +373,7 @@ footer{padding:36px 0;font-size:.9rem;color:var(--graphite)}
       <li>Note where it gets slow, boring or error-prone.</li>
       <li>Check you could show it with fake or anonymised example data.</li>
     </ol>
-    <a class="btn" href="#">Register for the Lab</a>
+    <a class="btn" href="#" id="register-btn">Register for the Lab</a>
   </div>
 </section>
 
@@ -391,6 +393,14 @@ document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",
   const c=cards[b.dataset.i];
   ids.forEach(k=>{const el=document.getElementById("c-"+k);el.style.opacity=0;setTimeout(()=>{el.textContent=c[k];el.style.opacity=1},180)});
 }));
+
+const registerBtn=document.getElementById("register-btn");
+registerBtn.addEventListener("click",e=>{
+  e.preventDefault();
+  registerBtn.textContent="In progress";
+  registerBtn.classList.add("is-progress");
+  registerBtn.setAttribute("aria-disabled","true");
+});
 </script>
 </body>
 </html>
